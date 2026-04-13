@@ -231,26 +231,45 @@ const Counter = ({ target, duration = 2000 }) => {
   return <span>{count.toLocaleString()}</span>;
 };
 
-const EventCard = ({ title, date, attendees, countdownDate, isVip, lang }) => {
-  const t = translations[lang];
-  const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
+const formatEventDate = (value) => {
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "";
+  const month = d.toLocaleString("en-US", { month: "short" });
+  const day = String(d.getDate()).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${month} ${day}, ${year}`;
+};
+
+const getTimeLeft = (target) => {
+  const end = new Date(target).getTime();
+  const now = Date.now();
+  const distance = end - now;
+  if (!Number.isFinite(end) || distance <= 0) return { d: 0, h: 0, m: 0, s: 0 };
+  return {
+    d: Math.floor(distance / (1000 * 60 * 60 * 24)),
+    h: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+    m: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+    s: Math.floor((distance % (1000 * 60)) / 1000),
+  };
+};
+
+const useCountdown = (countdownTarget) => {
+  const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(countdownTarget));
 
   useEffect(() => {
+    setTimeLeft(getTimeLeft(countdownTarget));
     const timer = setInterval(() => {
-      const distance = new Date(countdownDate).getTime() - new Date().getTime();
-      if (distance < 0) {
-        clearInterval(timer);
-      } else {
-        setTimeLeft({
-          d: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          h: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          m: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-          s: Math.floor((distance % (1000 * 60)) / 1000),
-        });
-      }
+      setTimeLeft(getTimeLeft(countdownTarget));
     }, 1000);
     return () => clearInterval(timer);
-  }, [countdownDate]);
+  }, [countdownTarget]);
+
+  return timeLeft;
+};
+
+const EventCard = ({ title, date, attendees, countdownDate, isVip, lang, thumbnailUrl }) => {
+  const t = translations[lang];
+  const timeLeft = useCountdown(countdownDate);
 
   return (
     <div className={`relative overflow-hidden rounded-2xl border transition-all hover:scale-[1.02] duration-300 ${
@@ -258,7 +277,7 @@ const EventCard = ({ title, date, attendees, countdownDate, isVip, lang }) => {
     }`}>
       <div className="h-48 w-full bg-zinc-800 flex items-center justify-center overflow-hidden">
          <img 
-          src={`https://images.unsplash.com/photo-${isVip ? '1507679799987-c73779587ccf' : '1515187029135-18ee286d815b'}?auto=format&fit=crop&q=80&w=800`} 
+          src={thumbnailUrl || `https://images.unsplash.com/photo-${isVip ? '1507679799987-c73779587ccf' : '1515187029135-18ee286d815b'}?auto=format&fit=crop&q=80&w=800`} 
           alt="Event" 
           className="w-full h-full object-cover opacity-60"
         />
@@ -301,6 +320,8 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [membershipId, setMembershipId] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [eventsData, setEventsData] = useState([]);
+  const [eventsError, setEventsError] = useState(null);
   const t = translations[lang];
 
   useEffect(() => {
@@ -338,6 +359,31 @@ const App = () => {
       return () => clearTimeout(timer);
     }
   }, [activePage, membershipId]);
+
+  useEffect(() => {
+    if (activePage !== "events") return;
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        setEventsError(null);
+        const res = await fetch("/api/events", { headers: { Accept: "application/json" } });
+        if (!res.ok) throw new Error(`Failed to load events (${res.status})`);
+        const json = await res.json();
+        if (cancelled) return;
+        setEventsData(Array.isArray(json?.events) ? json.events : []);
+      } catch (e) {
+        if (cancelled) return;
+        setEventsError(e?.message || "Failed to load events");
+        setEventsData([]);
+      }
+    };
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [activePage]);
 
   const handlePayment = async () => {
     if (!user) return;
@@ -414,58 +460,49 @@ const App = () => {
         );
 
       case 'events':
+        {
+        const standardEvents = eventsData.filter((e) => e?.category === "Standard");
+        const vipEvents = eventsData.filter((e) => e?.category === "VIP");
+
         return (
           <div className="pt-32 pb-20 px-4 max-w-7xl mx-auto">
             <h2 className="text-3xl font-bold text-amber-400 mb-12 flex items-center gap-3">
               <Calendar /> {t.standardEvents}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-              <EventCard 
-                title={lang === 'en' ? "Luxury Yacht Networking" : "豪華遊艇社交會"}
-                date="Oct 24, 2024"
-                attendees={45}
-                countdownDate="2024-10-24T18:00:00"
-                lang={lang}
-              />
-              <EventCard 
-                title={lang === 'en' ? "Global FinTech Summit" : "全球金融科技峰會"}
-                date="Nov 12, 2024"
-                attendees={120}
-                countdownDate="2024-11-12T09:00:00"
-                lang={lang}
-              />
-               <EventCard 
-                title={lang === 'en' ? "Real Estate Portfolio" : "房地產投資組合研討"}
-                date="Dec 05, 2024"
-                attendees={30}
-                countdownDate="2024-12-05T14:00:00"
-                lang={lang}
-              />
+              {standardEvents.map((evt) => (
+                <EventCard
+                  key={evt._id}
+                  title={evt.title}
+                  date={formatEventDate(evt.eventDate)}
+                  attendees={evt.attendees}
+                  countdownDate={evt.countdownTarget}
+                  lang={lang}
+                  thumbnailUrl={evt.thumbnailUrl}
+                />
+              ))}
             </div>
 
             <h2 className="text-3xl font-bold text-emerald-400 mb-12 flex items-center gap-3">
               <ShieldCheck /> {t.vipEvents}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <EventCard 
-                isVip
-                title={lang === 'en' ? "Private Island M&A Mastermind" : "私人島嶼併購大師會"}
-                date="Nov 30, 2024"
-                attendees={12}
-                countdownDate="2024-11-30T10:00:00"
-                lang={lang}
-              />
-               <EventCard 
-                isVip
-                title={lang === 'en' ? "Billionaire Tech Synergy" : "億萬富翁技術協同"}
-                date="Jan 15, 2025"
-                attendees={8}
-                countdownDate="2025-01-15T20:00:00"
-                lang={lang}
-              />
+              {vipEvents.map((evt) => (
+                <EventCard
+                  key={evt._id}
+                  isVip
+                  title={evt.title}
+                  date={formatEventDate(evt.eventDate)}
+                  attendees={evt.attendees}
+                  countdownDate={evt.countdownTarget}
+                  lang={lang}
+                  thumbnailUrl={evt.thumbnailUrl}
+                />
+              ))}
             </div>
           </div>
         );
+        }
 
       case 'vision':
         return (
