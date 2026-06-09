@@ -558,8 +558,89 @@ const App = () => {
 
       case 'register':
         return (
-          <div className="pt-32 pb-20 px-4 max-w-xl mx-auto">
-            <div className="bg-zinc-900 rounded-3xl border border-zinc-800 p-8 shadow-2xl">
+          <div className="pt-32 pb-20 px-4 max-w-6xl mx-auto">
+            {/* Tier Pricing Section */}
+            <div className="mb-16">
+              <h2 className="text-4xl font-bold text-center text-white mb-4">Choose Your Tier</h2>
+              <p className="text-zinc-400 text-center mb-12 max-w-2xl mx-auto">
+                Membership fees convert to platform credits. Every transaction deducts the 15% fee from your balance.
+                <br/><span className="text-amber-400 font-semibold">Your membership pays for itself.</span>
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                {/* Bronze */}
+                <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-amber-500/50 transition-all hover:scale-105">
+                  <div className="text-3xl mb-2">🥉</div>
+                  <h3 className="text-xl font-bold text-white">Bronze</h3>
+                  <div className="text-3xl font-bold text-amber-400 my-4">HK$1,000</div>
+                  <ul className="space-y-2 text-sm text-zinc-400">
+                    <li>• 50 Database Slots</li>
+                    <li>• Standard App Access</li>
+                    <li>• Elite Group Hikes</li>
+                    <li>• Dragon's Back Events</li>
+                  </ul>
+                </div>
+
+                {/* Silver */}
+                <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-amber-500/50 transition-all hover:scale-105">
+                  <div className="text-3xl mb-2">🥈</div>
+                  <h3 className="text-xl font-bold text-white">Silver</h3>
+                  <div className="text-3xl font-bold text-amber-400 my-4">HK$10,000</div>
+                  <ul className="space-y-2 text-sm text-zinc-400">
+                    <li>• 250 Database Slots</li>
+                    <li>• 2 Family Overrides</li>
+                    <li>• Executive Lounges</li>
+                    <li>• Private Whiskey Bars</li>
+                  </ul>
+                </div>
+
+                {/* Gold */}
+                <div className="bg-gradient-to-b from-amber-500/10 to-zinc-900/50 border border-amber-500/30 rounded-2xl p-6 hover:border-amber-500 transition-all hover:scale-105 relative">
+                  <div className="absolute top-0 right-0 bg-amber-500 text-black text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">POPULAR</div>
+                  <div className="text-3xl mb-2">🥇</div>
+                  <h3 className="text-xl font-bold text-white">Gold</h3>
+                  <div className="text-3xl font-bold text-amber-400 my-4">HK$100,000</div>
+                  <ul className="space-y-2 text-sm text-zinc-300">
+                    <li>• 1,000 Database Slots</li>
+                    <li>• 5 Family Overrides</li>
+                    <li>• ⚡ 1-Hour Early Deal Signal</li>
+                    <li>• Michelin 5-Course Dinners</li>
+                    <li>• Hidden Wine Vaults</li>
+                  </ul>
+                </div>
+
+                {/* Platinum */}
+                <div className="bg-gradient-to-b from-emerald-900/20 to-zinc-900/50 border border-emerald-500/30 rounded-2xl p-6 hover:border-emerald-500 transition-all hover:scale-105">
+                  <div className="text-3xl mb-2">💎</div>
+                  <h3 className="text-xl font-bold text-white">Platinum</h3>
+                  <div className="text-3xl font-bold text-emerald-400 my-4">HK$1,000,000</div>
+                  <ul className="space-y-2 text-sm text-zinc-300">
+                    <li>• Unlimited Database Slots</li>
+                    <li>• $1M Asset Audit Required</li>
+                    <li>• Shadow Directory Access</li>
+                    <li>• Superyacht Cruises</li>
+                    <li>• Mansion Retreats</li>
+                  </ul>
+                </div>
+
+                {/* Diamond */}
+                <div className="bg-gradient-to-b from-purple-900/20 to-zinc-900/50 border border-purple-500/30 rounded-2xl p-6 hover:border-purple-500 transition-all hover:scale-105">
+                  <div className="text-3xl mb-2">👑</div>
+                  <h3 className="text-xl font-bold text-white">Diamond</h3>
+                  <div className="text-2xl font-bold text-purple-400 my-4">Invitation Only</div>
+                  <ul className="space-y-2 text-sm text-zinc-300">
+                    <li>• Tech Wealth Council Vote</li>
+                    <li>• Veto Power</li>
+                    <li>• Whale Liquidity Pool</li>
+                    <li>• Platform Dominance</li>
+                    <li>• Amex Black Card Mythos</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Registration Form */}
+            <div className="bg-zinc-900 rounded-3xl border border-zinc-800 p-8 shadow-2xl max-w-xl mx-auto">
               <div className="text-center mb-8">
                 <h2 className="text-3xl font-bold text-white mb-2">{t.regTitle}</h2>
                 <p className="text-zinc-500">{t.regSub}</p>
