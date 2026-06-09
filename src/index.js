@@ -130,7 +130,37 @@ const translations = {
     mission2: "高價成交渠道",
     mission2Desc: "獨家獲取 100 萬美元以上的潛在客戶網絡。",
     mission3: "人力資源優化",
-    mission3Desc: "優化人力資本以實現最大效率。"
+    mission3Desc: "優化人力資本以實現最大效率。",
+    tierBronze: "銅級會員",
+    tierSilver: "銀級會員",
+    tierGold: "金級會員",
+    tierPlatinum: "白金級會員",
+    tierDiamond: "鑽石級會員",
+    tierPopular: "熱門",
+    tierChoose: "選擇您的等級",
+    tierCredit: "會員費轉換為平台積分。每筆交易從餘額中扣除 15% 平台費。",
+    tierPaysForItself: "您的會員資格會自己付費。",
+    slots: "數據庫名額",
+    familyOverrides: "家庭優先覆蓋",
+    earlyDealSignal: "⚡ 1 小時早期交易信號",
+    standardAccess: "標準應用程式訪問",
+    eliteHikes: "精英行山活動",
+    dragonsBack: "龍脊活動",
+    executiveLounges: "行政貴賓室",
+    whiskeyBars: "私人威士忌酒吧",
+    michelin: "米其林五道菜晚餐",
+    wineVaults: "隱藏酒窖",
+    unlimitedSlots: "無限數據庫名額",
+    assetAudit: "需 100 萬美元資產審核",
+    shadowDirectory: "影子目錄訪問權",
+    superyacht: "超級遊艇巡航",
+    mansionRetreats: "豪宅靜修",
+    councilVote: "科技財富委員會投票權",
+    vetoPower: "否決權",
+    whalePool: "巨鯨資金池",
+    platformDominance: "平台主導權",
+    invitationOnly: "僅限邀請",
+    amexMythos: "美國運通黑卡神話"
   }
 };
 
@@ -561,79 +591,97 @@ const App = () => {
           <div className="pt-32 pb-20 px-4 max-w-6xl mx-auto">
             {/* Tier Pricing Section */}
             <div className="mb-16">
-              <h2 className="text-4xl font-bold text-center text-white mb-4">Choose Your Tier</h2>
+              <h2 className="text-4xl font-bold text-center text-white mb-4">
+                {lang === 'en' ? 'Choose Your Tier' : '選擇您的等級'}
+              </h2>
               <p className="text-zinc-400 text-center mb-12 max-w-2xl mx-auto">
-                Membership fees convert to platform credits. Every transaction deducts the 15% fee from your balance.
-                <br/><span className="text-amber-400 font-semibold">Your membership pays for itself.</span>
+                {lang === 'en' 
+                  ? <>Membership fees convert to platform credits. Every transaction deducts the 15% fee from your balance.<br/><span className="text-amber-400 font-semibold">Your membership pays for itself.</span></>
+                  : <>會員費轉換為平台積分。每筆交易從餘額中扣除 15% 平台費。<br/><span className="text-amber-400 font-semibold">您的會員資格會自己付費。</span></>
+                }
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 {/* Bronze */}
                 <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-amber-500/50 transition-all hover:scale-105">
                   <div className="text-3xl mb-2">🥉</div>
-                  <h3 className="text-xl font-bold text-white">Bronze</h3>
+                  <h3 className="text-xl font-bold text-white">
+                    {lang === 'en' ? 'Bronze' : '銅級'}
+                  </h3>
                   <div className="text-3xl font-bold text-amber-400 my-4">HK$1,000</div>
                   <ul className="space-y-2 text-sm text-zinc-400">
-                    <li>• 50 Database Slots</li>
-                    <li>• Standard App Access</li>
-                    <li>• Elite Group Hikes</li>
-                    <li>• Dragon's Back Events</li>
+                    <li>• 50 {lang === 'en' ? 'Database Slots' : '數據庫名額'}</li>
+                    <li>• {lang === 'en' ? 'Standard App Access' : '標準應用程式訪問'}</li>
+                    <li>• {lang === 'en' ? 'Elite Group Hikes' : '精英行山活動'}</li>
+                    <li>• {lang === 'en' ? "Dragon's Back Events" : '龍脊活動'}</li>
                   </ul>
                 </div>
 
                 {/* Silver */}
                 <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-amber-500/50 transition-all hover:scale-105">
                   <div className="text-3xl mb-2">🥈</div>
-                  <h3 className="text-xl font-bold text-white">Silver</h3>
+                  <h3 className="text-xl font-bold text-white">
+                    {lang === 'en' ? 'Silver' : '銀級'}
+                  </h3>
                   <div className="text-3xl font-bold text-amber-400 my-4">HK$10,000</div>
                   <ul className="space-y-2 text-sm text-zinc-400">
-                    <li>• 250 Database Slots</li>
-                    <li>• 2 Family Overrides</li>
-                    <li>• Executive Lounges</li>
-                    <li>• Private Whiskey Bars</li>
+                    <li>• 250 {lang === 'en' ? 'Database Slots' : '數據庫名額'}</li>
+                    <li>• 2 {lang === 'en' ? 'Family Overrides' : '家庭優先權'}</li>
+                    <li>• {lang === 'en' ? 'Executive Lounges' : '行政貴賓室'}</li>
+                    <li>• {lang === 'en' ? 'Private Whiskey Bars' : '私人威士忌酒吧'}</li>
                   </ul>
                 </div>
 
                 {/* Gold */}
                 <div className="bg-gradient-to-b from-amber-500/10 to-zinc-900/50 border border-amber-500/30 rounded-2xl p-6 hover:border-amber-500 transition-all hover:scale-105 relative">
-                  <div className="absolute top-0 right-0 bg-amber-500 text-black text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">POPULAR</div>
+                  <div className="absolute top-0 right-0 bg-amber-500 text-black text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">
+                    {lang === 'en' ? 'POPULAR' : '熱門'}
+                  </div>
                   <div className="text-3xl mb-2">🥇</div>
-                  <h3 className="text-xl font-bold text-white">Gold</h3>
+                  <h3 className="text-xl font-bold text-white">
+                    {lang === 'en' ? 'Gold' : '金級'}
+                  </h3>
                   <div className="text-3xl font-bold text-amber-400 my-4">HK$100,000</div>
                   <ul className="space-y-2 text-sm text-zinc-300">
-                    <li>• 1,000 Database Slots</li>
-                    <li>• 5 Family Overrides</li>
-                    <li>• ⚡ 1-Hour Early Deal Signal</li>
-                    <li>• Michelin 5-Course Dinners</li>
-                    <li>• Hidden Wine Vaults</li>
+                    <li>• 1,000 {lang === 'en' ? 'Database Slots' : '數據庫名額'}</li>
+                    <li>• 5 {lang === 'en' ? 'Family Overrides' : '家庭優先權'}</li>
+                    <li>• ⚡ {lang === 'en' ? '1-Hour Early Deal Signal' : '1 小時早期交易信號'}</li>
+                    <li>• {lang === 'en' ? 'Michelin 5-Course Dinners' : '米其林五道菜晚餐'}</li>
+                    <li>• {lang === 'en' ? 'Hidden Wine Vaults' : '隱藏酒窖'}</li>
                   </ul>
                 </div>
 
                 {/* Platinum */}
                 <div className="bg-gradient-to-b from-emerald-900/20 to-zinc-900/50 border border-emerald-500/30 rounded-2xl p-6 hover:border-emerald-500 transition-all hover:scale-105">
                   <div className="text-3xl mb-2">💎</div>
-                  <h3 className="text-xl font-bold text-white">Platinum</h3>
+                  <h3 className="text-xl font-bold text-white">
+                    {lang === 'en' ? 'Platinum' : '白金級'}
+                  </h3>
                   <div className="text-3xl font-bold text-emerald-400 my-4">HK$1,000,000</div>
                   <ul className="space-y-2 text-sm text-zinc-300">
-                    <li>• Unlimited Database Slots</li>
-                    <li>• $1M Asset Audit Required</li>
-                    <li>• Shadow Directory Access</li>
-                    <li>• Superyacht Cruises</li>
-                    <li>• Mansion Retreats</li>
+                    <li>• {lang === 'en' ? 'Unlimited Database Slots' : '無限數據庫名額'}</li>
+                    <li>• {lang === 'en' ? '$1M Asset Audit Required' : '需 100 萬美元資產審核'}</li>
+                    <li>• {lang === 'en' ? 'Shadow Directory Access' : '影子目錄訪問權'}</li>
+                    <li>• {lang === 'en' ? 'Superyacht Cruises' : '超級遊艇巡航'}</li>
+                    <li>• {lang === 'en' ? 'Mansion Retreats' : '豪宅靜修'}</li>
                   </ul>
                 </div>
 
                 {/* Diamond */}
                 <div className="bg-gradient-to-b from-purple-900/20 to-zinc-900/50 border border-purple-500/30 rounded-2xl p-6 hover:border-purple-500 transition-all hover:scale-105">
                   <div className="text-3xl mb-2">👑</div>
-                  <h3 className="text-xl font-bold text-white">Diamond</h3>
-                  <div className="text-2xl font-bold text-purple-400 my-4">Invitation Only</div>
+                  <h3 className="text-xl font-bold text-white">
+                    {lang === 'en' ? 'Diamond' : '鑽石級'}
+                  </h3>
+                  <div className="text-2xl font-bold text-purple-400 my-4">
+                    {lang === 'en' ? 'Invitation Only' : '僅限邀請'}
+                  </div>
                   <ul className="space-y-2 text-sm text-zinc-300">
-                    <li>• Tech Wealth Council Vote</li>
-                    <li>• Veto Power</li>
-                    <li>• Whale Liquidity Pool</li>
-                    <li>• Platform Dominance</li>
-                    <li>• Amex Black Card Mythos</li>
+                    <li>• {lang === 'en' ? 'Tech Wealth Council Vote' : '科技財富委員會投票'}</li>
+                    <li>• {lang === 'en' ? 'Veto Power' : '否決權'}</li>
+                    <li>• {lang === 'en' ? 'Whale Liquidity Pool' : '巨鯨資金池'}</li>
+                    <li>• {lang === 'en' ? 'Platform Dominance' : '平台主導權'}</li>
+                    <li>• {lang === 'en' ? 'AmEx Black Card Mythos' : '美國運通黑卡神話'}</li>
                   </ul>
                 </div>
               </div>
