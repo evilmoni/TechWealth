@@ -1,18 +1,23 @@
 # 🚀 TechWealth Deployment Instructions
 
-**Generated:** 2026-06-09  
-**Status:** ✅ Build ready, awaiting Firebase authentication
+**Generated:** 2026-06-11  
+**Status:** ✅ Build ready, manual sign-up + approval flow implemented
 
 ---
 
-## ✅ What's Done
+## ✅ What's Done (Updated 2026-06-11)
 
-- [x] Admin member schema added to Sanity CMS
+- [x] Sanity CMS admin panel with member schema
 - [x] Bilingual support (EN/中文) verified
+- [x] **NEW:** Manual sign-up form with tier selection
+- [x] **NEW:** Application submission → Firestore (`membership_applications` collection)
+- [x] **NEW:** Admin approval workflow in Sanity Studio
+- [x] **NEW:** Application status tracking (pending → approved → active)
 - [x] Production build compiled successfully
 - [x] Code pushed to GitHub (`main` branch)
 - [x] Firebase configuration updated
 - [x] `.firebaserc` created (project: `techwealth-website`)
+- [x] Admin guide documented (`ADMIN_GUIDE.md`)
 
 ---
 

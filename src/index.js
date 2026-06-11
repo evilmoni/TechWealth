@@ -1,6 +1,7 @@
 import './index.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
+import SignUpForm from './components/SignUpForm';
 import { initializeApp } from 'firebase/app';
 import { 
   getAuth, 
@@ -349,6 +350,7 @@ const App = () => {
   const [activePage, setActivePage] = useState('home');
   const [user, setUser] = useState(null);
   const [membershipId, setMembershipId] = useState(null);
+  const [applicationStatus, setApplicationStatus] = useState(null); // 'pending', 'approved', 'rejected'
   const [isProcessing, setIsProcessing] = useState(false);
   const [eventsData, setEventsData] = useState([]);
   const [eventsError, setEventsError] = useState(null);
@@ -371,12 +373,34 @@ const App = () => {
 
   useEffect(() => {
     if (!user) return;
+    
+    // Check for approved membership
     const userDocRef = doc(db, 'artifacts', appId, 'users', user.uid, 'membership', 'status');
     const unsub = onSnapshot(userDocRef, (docSnap) => {
       if (docSnap.exists()) {
-        setMembershipId(docSnap.data().memberId);
+        const data = docSnap.data();
+        setMembershipId(data.memberId);
+        if (data.status === 'active') {
+          setApplicationStatus('approved');
+        }
       }
     }, (err) => console.error(err));
+    
+    // Check for pending applications
+    const checkApplication = async () => {
+      try {
+        const email = localStorage.getItem('techwealth_email');
+        if (!email) return;
+        
+        // Query Firestore for application (note: this requires index or we use a different approach)
+        // For now, we'll rely on the user knowing their status after submission
+      } catch (err) {
+        console.error('Error checking application:', err);
+      }
+    };
+    
+    checkApplication();
+    
     return () => unsub();
   }, [user]);
 
@@ -432,6 +456,43 @@ const App = () => {
     setIsProcessing(false);
     setMembershipId(newId);
     setActivePage('members');
+  };
+
+  const handleApplicationSubmit = async (formData, markSubmitted) => {
+    if (!user) {
+      // Sign in anonymously first
+      await signInAnonymously(auth);
+    }
+    
+    setIsProcessing(true);
+    
+    try {
+      // Save email to localStorage for status checking
+      localStorage.setItem('techwealth_email', formData.email);
+      
+      // Submit to API
+      const response = await fetch('/api/submit-application', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      const result = await response.json();
+      
+      if (response.ok && result.success) {
+        console.log('Application submitted:', result.applicationId);
+        markSubmitted();
+        setApplicationStatus('pending');
+      } else {
+        console.error('Application failed:', result.error);
+        alert('Failed to submit application. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      alert('Network error. Please check your connection and try again.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const renderContent = () => {
@@ -690,54 +751,42 @@ const App = () => {
             {/* Registration Form */}
             <div className="bg-zinc-900 rounded-3xl border border-zinc-800 p-8 shadow-2xl max-w-xl mx-auto">
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold text-white mb-2">{t.regTitle}</h2>
-                <p className="text-zinc-500">{t.regSub}</p>
+                <h2 className="text-3xl font-bold text-white mb-2">
+                  {applicationStatus === 'pending' 
+                    ? (lang === 'en' ? 'Application Status' : '申請狀態')
+                    : t.regTitle
+                  }
+                </h2>
+                <p className="text-zinc-500">
+                  {applicationStatus === 'pending'
+                    ? (lang === 'en' ? 'Your application is under review' : '您的申請正在審核中')
+                    : t.regSub
+                  }
+                </p>
               </div>
 
-              {membershipId ? (
-                <div className="text-center p-8 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl animate-in zoom-in-95 duration-500">
-                  <CheckCircle2 className="mx-auto text-emerald-400 mb-4" size={48} />
-                  <h3 className="text-xl font-bold text-white mb-2">{t.accessGranted}</h3>
-                  <p className="text-zinc-400 mb-6 text-sm">{t.membershipId}</p>
-                  <div className="bg-black py-3 rounded-lg text-emerald-400 font-mono text-xl tracking-widest border border-emerald-500/30">
-                    {membershipId}
+              {applicationStatus === 'pending' ? (
+                <div className="text-center p-8 bg-amber-500/10 border border-amber-500/20 rounded-2xl animate-in zoom-in-95 duration-500">
+                  <Clock className="mx-auto text-amber-400 mb-4" size={48} />
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    {lang === 'en' ? 'Pending Approval' : '待審批'}
+                  </h3>
+                  <p className="text-zinc-400 mb-6">
+                    {lang === 'en' 
+                      ? 'We will contact you within 48 hours to verify your information and process payment.'
+                      : '我們將在 48 小時內與您聯絡以驗證資料並處理付款。'
+                    }
+                  </p>
+                  <div className="text-sm text-zinc-500">
+                    {lang === 'en' ? 'Check your email for updates.' : '請檢查您的電郵以獲取更新。'}
                   </div>
-                  <button 
-                    onClick={() => setActivePage('members')}
-                    className="mt-8 w-full py-4 bg-emerald-600 text-white rounded-xl font-bold"
-                  >
-                    Enter Member Portal
-                  </button>
                 </div>
               ) : (
-                <div className="space-y-6">
-                  <div className="grid grid-cols-2 gap-4">
-                    <input className="bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500" placeholder="First Name" />
-                    <input className="bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500" placeholder="Last Name" />
-                  </div>
-                  <input className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500" placeholder="Business Email" />
-                  
-                  <div className="pt-4">
-                    <p className="text-sm text-zinc-500 mb-4">{t.payMethod}</p>
-                    <div className="grid grid-cols-4 gap-3 opacity-60">
-                      {['Apple Pay', 'Google Pay', 'Stripe', 'Visa'].map(p => (
-                        <div key={p} className="h-10 border border-zinc-800 rounded-lg flex items-center justify-center text-[10px] font-bold text-zinc-300 bg-zinc-800/30">
-                          {p}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <button 
-                    onClick={handlePayment}
-                    disabled={isProcessing}
-                    className="w-full py-4 bg-amber-500 text-black font-bold rounded-xl hover:bg-amber-400 transition-colors disabled:opacity-50 flex items-center justify-center gap-3"
-                  >
-                    {isProcessing ? <Clock className="animate-spin" /> : <CreditCard />}
-                    {isProcessing ? (lang === 'en' ? 'Processing...' : '正在處理...') : t.processPayment}
-                  </button>
-                  <p className="text-[10px] text-zinc-600 text-center uppercase tracking-widest">Secure 256-bit Encrypted Transaction</p>
-                </div>
+                <SignUpForm 
+                  lang={lang} 
+                  onSubmit={handleApplicationSubmit}
+                  isSubmitting={isProcessing}
+                />
               )}
             </div>
           </div>
