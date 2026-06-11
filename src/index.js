@@ -2,6 +2,7 @@ import './index.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import SignUpForm from './components/SignUpForm';
+import AdminAccess from './components/AdminAccess';
 import { initializeApp } from 'firebase/app';
 import { 
   getAuth, 
@@ -354,6 +355,7 @@ const App = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [eventsData, setEventsData] = useState([]);
   const [eventsError, setEventsError] = useState(null);
+  const [showAdmin, setShowAdmin] = useState(false);
   const t = translations[lang];
 
   useEffect(() => {
@@ -876,11 +878,25 @@ const App = () => {
           © 2024 TechWealth Collective. Privileged & Confidential.
         </p>
       </footer>
+
+      {/* Admin Access - Hidden (press 'A' key) */}
+      {showAdmin && <AdminAccess onClose={() => setShowAdmin(false)} />}
     </div>
   );
 };
 
 export default App;
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'a' && e.altKey && e.shiftKey) {
+        setShowAdmin(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
 const rootEl = document.getElementById('root');
 if (rootEl) {
