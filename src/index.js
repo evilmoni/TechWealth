@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client';
 import SignUpForm from './components/SignUpForm';
 import AdminAccess from './components/AdminAccess';
 import { firebaseApp, auth, db } from './firebase/config';
+import { signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
+import { doc, setDoc, onSnapshot } from 'firebase/firestore';
 import { 
   Users, 
   Calendar, 
@@ -20,19 +22,8 @@ import {
   X
 } from 'lucide-react';
 
-// --- Firebase Configuration ---
-const firebaseConfig = {
-  apiKey: "AIzaSyDUDQti3a-SnstsakWSB6vTppsxDV_gh2Q",
-  authDomain: "techwealth-website.firebaseapp.com",
-  projectId: "techwealth-website",
-  storageBucket: "techwealth-website.appspot.com",
-  messagingSenderId: "36453865287",
-  appId: "1:36453865287:web:22bef340b02a7b8e385e62",
-  measurementId: "G-HLRMJ3E11E"
-};
-
 // --- App ID ---
-const appId = globalThis?.__app_id || 'tw-v5-stable';
+// --- App ID ---
 
 // --- Translations ---
 const translations = {
@@ -851,27 +842,26 @@ const App = () => {
         </p>
       </footer>
 
-      {/* Admin Access - Hidden (press 'A' key) */}
+      {/* Admin Access - Hidden (press Alt+Shift+A) */}
       {showAdmin && <AdminAccess onClose={() => setShowAdmin(false)} />}
     </div>
   );
 };
 
-export default App;
+// Keyboard shortcuts
+useEffect(() => {
+  const handleKeyDown = (e) => {
+    if (e.key === 'a' && e.altKey && e.shiftKey) {
+      setShowAdmin(true);
+    }
+  };
+  window.addEventListener('keydown', handleKeyDown);
+  return () => window.removeEventListener('keydown', handleKeyDown);
+}, []);
 
-  // Keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'a' && e.altKey && e.shiftKey) {
-        setShowAdmin(true);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+export default App;
 
 const rootEl = document.getElementById('root');
 if (rootEl) {
   createRoot(rootEl).render(<App />);
 }
-
