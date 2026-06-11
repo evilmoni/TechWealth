@@ -3,22 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import SignUpForm from './components/SignUpForm';
 import AdminAccess from './components/AdminAccess';
-import { initializeApp } from 'firebase/app';
-import { 
-  getAuth, 
-  signInAnonymously, 
-  signInWithCustomToken, 
-  onAuthStateChanged 
-} from 'firebase/auth';
-import { 
-  getFirestore, 
-  doc, 
-  setDoc, 
-  getDoc, 
-  collection, 
-  query, 
-  onSnapshot 
-} from 'firebase/firestore';
+import { firebaseApp, auth, db } from './firebase/config';
 import { 
   Users, 
   Calendar, 
@@ -46,21 +31,8 @@ const firebaseConfig = {
   measurementId: "G-HLRMJ3E11E"
 };
 
-const resolvedFirebaseConfig = (() => {
-  try {
-    const fromWindow = globalThis?.__firebase_config;
-    if (typeof fromWindow === 'string' && fromWindow.trim()) return JSON.parse(fromWindow);
-  } catch (_) {
-    // Fall back to bundled config.
-  }
-  return firebaseConfig;
-})();
-
+// --- App ID ---
 const appId = globalThis?.__app_id || 'tw-v5-stable';
-
-const firebaseApp = initializeApp(resolvedFirebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
 
 // --- Translations ---
 const translations = {
