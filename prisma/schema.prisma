@@ -1,0 +1,134 @@
+// TechWealth MPA - Database Schema
+// PostgreSQL with Prisma ORM
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  GUEST
+  MEMBER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum MembershipTier {
+  BRONZE    // HKD 1,000
+  SILVER    // HKD 10,000
+  GOLD      // HKD 100,000
+  PLATINUM  // HKD 500,000
+  DIAMOND   // HKD 1,000,000
+}
+
+enum ApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  PARTIAL
+  REFUNDED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String?   // Null for OAuth users
+  name          String?
+  company       String?
+  title         String?
+  phone         String?
+  telegramHandle String?
+  linkedinUrl   String?
+  
+  role          UserRole  @default(GUEST)
+  membershipTier MembershipTier?
+  membershipId  String?   @unique // Generated on approval
+  
+  // Relations
+  applications  MembershipApplication[]
+  payments      Payment[]
+  sessions      Session[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+  
+  @@index([email])
+  @@index([role])
+  @@index([membershipId])
+}
+
+model MembershipApplication {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  selectedTier    MembershipTier
+  paymentMethod   String          // "bank_transfer", "crypto", "stripe"
+  
+  status          ApplicationStatus @default(PENDING)
+  adminNotes      String?
+  reviewedBy      String?         // Admin user ID
+  reviewedAt      DateTime?
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+}
+
+model Payment {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  amount          Decimal   @db.Decimal(12, 2)
+  currency        String    @default("HKD")
+  paymentMethod   String
+  transactionId   String?   @unique
+  paymentStatus   PaymentStatus @default(UNPAID)
+  
+  paidAt          DateTime?
+  createdAt       DateTime  @default(now())
+  
+  @@index([userId])
+  @@index([transactionId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionToken String   @unique
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  
+  @@index([sessionToken])
+  @@index([userId])
+}
+
+model AdminAuditLog {
+  id        String   @id @default(cuid())
+  adminId   String
+  action    String   // "APPROVED_APPLICATION", "REJECTED_USER", etc.
+  targetId  String?  // Affected resource ID
+  details   Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  
+  @@index([adminId])
+  @@index([createdAt])
+}
