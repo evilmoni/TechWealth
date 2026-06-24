@@ -40,6 +40,8 @@ export const translations = {
     navVision: "願景",
     navJoin: "加入我們",
     navMembers: "貴賓登錄",
+    memberLogin: "Member Login",
+    adminPanel: "Admin Panel",
     heroTitle: "TechWealth 財富精英會",
     heroSub: "高淨值商業領袖的終極樞紐。利用集體人力資源實現爆炸式的客戶獲取。",
     memberCount: "全球會員人數",
@@ -97,7 +99,9 @@ export const translations = {
     whalePool: "巨鯨資金池",
     platformDominance: "平台主導權",
     invitationOnly: "僅限邀請",
-    amexMythos: "美國運通黑卡神話"
+    amexMythos: "美國運通黑卡神話",
+    memberLogin: "會員登入",
+    adminPanel: "管理控制台"
   }
 };
 

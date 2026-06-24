@@ -25,8 +25,8 @@ export default function Navbar({ lang, setLang, isMember }: NavbarProps) {
   ];
 
   const memberNavItems = [
-    { href: '/login', label: 'Member Login', icon: '🔐' },
-    { href: '/admin/dashboard', label: 'Admin Panel', icon: '⚙️' },
+    { href: '/login', label: t.memberLogin, icon: '🔐' },
+    { href: '/admin/dashboard', label: t.adminPanel, icon: '⚙️' },
   ];
 
   const isActive = (href: string) => {
