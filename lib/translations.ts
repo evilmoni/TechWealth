@@ -34,7 +34,9 @@ export const translations = {
     mission2: "High-Ticket Pipeline",
     mission2Desc: "Exclusive access to $1M+ lead generation networks.",
     mission3: "HR Leveraging",
-    mission3Desc: "Optimizing human capital for maximum efficiency."
+    mission3Desc: "Optimizing human capital for maximum efficiency.",
+    assetValue: "Asset Value",
+    globalChapters: "Global Chapters"
   },
   zh: {
     navHome: "首頁",
