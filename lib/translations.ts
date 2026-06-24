@@ -72,6 +72,8 @@ export const translations = {
     mission2Desc: "獨家獲取 100 萬美元以上的潛在客戶網絡。",
     mission3: "人力資源優化",
     mission3Desc: "優化人力資本以實現最大效率。",
+    assetValue: "資產價值",
+    globalChapters: "全球分會",
     tierBronze: "銅級會員",
     tierSilver: "銀級會員",
     tierGold: "金級會員",

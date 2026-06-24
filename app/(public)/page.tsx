@@ -53,13 +53,13 @@ export default function HomePage() {
               <div className="text-4xl font-bold text-emerald-400 mb-2">
                 $<Counter target={450} />M+
               </div>
-              <div className="text-zinc-500 font-medium">{lang === 'en' ? 'Asset Value' : '資產價值'}</div>
+              <div className="text-zinc-500 font-medium">{t.assetValue}</div>
             </div>
             <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800/50">
               <div className="text-4xl font-bold text-emerald-400 mb-2">
                 <Counter target={12} />
               </div>
-              <div className="text-zinc-500 font-medium">{lang === 'en' ? 'Global Chapters' : '全球分會'}</div>
+              <div className="text-zinc-500 font-medium">{t.globalChapters}</div>
             </div>
           </div>
         </div>
