@@ -199,7 +199,7 @@ export default function AdminAccess({ onClose }: AdminAccessProps) {
         <div className="flex items-center gap-3">
           <ShieldCheck className="text-amber-400" size={28} />
           <div>
-            <h1 className="text-xl font-bold text-white">TechWealth Admin</h1>
+            <h1 className="text-xl font-bold text-white">科富商會 Admin</h1>
             <p className="text-xs text-zinc-500">Membership Management</p>
           </div>
         </div>

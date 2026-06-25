@@ -39,9 +39,9 @@ export default function Navbar({ lang, setLang, isMember }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           <Link href="/" className="flex items-center gap-2 cursor-pointer">
-            <img src="/logo.jpg" alt="TechWealth Logo" className="w-10 h-10 object-contain" />
+            <img src="/logo.jpg" alt={lang === 'en' ? 'TechWealth Logo' : '科富商會 Logo'} className="w-10 h-10 object-contain" />
             <span className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-emerald-400 bg-clip-text text-transparent tracking-tighter">
-              TechWealth
+              {lang === 'en' ? 'TechWealth' : '科富商會'}
             </span>
           </Link>
 

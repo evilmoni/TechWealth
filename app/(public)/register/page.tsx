@@ -203,7 +203,7 @@ export default function RegisterPage() {
 
       <footer className="border-t border-zinc-900 py-10 text-center">
         <p className="text-zinc-600 text-xs tracking-widest uppercase">
-          © 2024 TechWealth Collective. Privileged & Confidential.
+          {t.footerCopyright}
         </p>
       </footer>
     </div>

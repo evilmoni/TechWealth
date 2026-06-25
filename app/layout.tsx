@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TechWealth Elite",
+  title: "科富商會 | TechWealth Elite",
   description: "The ultimate hub for high-net-worth business leaders",
 };
 

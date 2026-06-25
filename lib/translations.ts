@@ -36,7 +36,8 @@ export const translations = {
     mission3: "HR Leveraging",
     mission3Desc: "Optimizing human capital for maximum efficiency.",
     assetValue: "Asset Value",
-    globalChapters: "Global Chapters"
+    globalChapters: "Global Chapters",
+    footerCopyright: "© 2024 TechWealth Collective. Privileged & Confidential."
   },
   zh: {
     navHome: "首頁",
@@ -46,7 +47,7 @@ export const translations = {
     navMembers: "貴賓登錄",
     memberLogin: "會員登入",
     adminPanel: "管理控制台",
-    heroTitle: "TechWealth 財富精英會",
+    heroTitle: "科富商會",
     heroSub: "高淨值商業領袖的終極樞紐。利用集體人力資源實現爆炸式的客戶獲取。",
     memberCount: "全球會員人數",
     ctaJoin: "申請加入",
@@ -76,6 +77,7 @@ export const translations = {
     mission3Desc: "優化人力資本以實現最大效率。",
     assetValue: "資產價值",
     globalChapters: "全球分會",
+    footerCopyright: "© 2024 科富商會。特權 & 機密。",
     tierBronze: "銅級會員",
     tierSilver: "銀級會員",
     tierGold: "金級會員",
