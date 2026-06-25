@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Globe, Menu, X } from 'lucide-react';
-import { Lang, translations } from '../../lib/translations';
+import { Globe, Menu, X, ChevronDown } from 'lucide-react';
+import { Lang, translations, langNames } from '../../lib/translations';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -14,6 +14,7 @@ interface NavbarProps {
 
 export default function Navbar({ lang, setLang, isMember }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
   const t = translations[lang];
   const pathname = usePathname();
 
@@ -23,6 +24,15 @@ export default function Navbar({ lang, setLang, isMember }: NavbarProps) {
       localStorage.setItem('techwealth_lang', lang);
     }
   }, [lang]);
+
+  // Close language menu when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = () => setLangMenuOpen(false);
+    if (langMenuOpen) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [langMenuOpen]);
 
   const navItems = [
     { href: '/', label: t.navHome },
@@ -75,12 +85,36 @@ export default function Navbar({ lang, setLang, isMember }: NavbarProps) {
                 </Link>
               ))}
             </div>
-            <button 
-              onClick={() => setLang(lang === 'en' ? 'zh' : 'en')}
-              className="flex items-center gap-1 text-xs px-3 py-1 border border-emerald-800 rounded-full text-emerald-400 hover:bg-emerald-900/20 transition-all"
-            >
-              <Globe size={14} /> {lang === 'en' ? '繁中' : 'EN'}
-            </button>
+            <div className="relative">
+              <button 
+                onClick={(e) => { e.stopPropagation(); setLangMenuOpen(!langMenuOpen); }}
+                className="flex items-center gap-1 text-xs px-3 py-1 border border-emerald-800 rounded-full text-emerald-400 hover:bg-emerald-900/20 transition-all"
+              >
+                <Globe size={14} /> {langNames[lang]} <ChevronDown size={12} />
+              </button>
+              
+              {langMenuOpen && (
+                <div className="absolute right-0 mt-2 w-36 bg-black border border-emerald-900/50 rounded-lg shadow-xl z-50 overflow-hidden">
+                  {(Object.keys(langNames) as Lang[]).map((locale) => (
+                    <button
+                      key={locale}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setLang(locale);
+                        setLangMenuOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+                        lang === locale
+                          ? 'bg-emerald-900/30 text-emerald-400'
+                          : 'text-gray-400 hover:text-white hover:bg-zinc-900'
+                      }`}
+                    >
+                      {langNames[locale]}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="md:hidden">
@@ -117,11 +151,33 @@ export default function Navbar({ lang, setLang, isMember }: NavbarProps) {
             ))}
           </div>
           <button 
-            onClick={() => setLang(lang === 'en' ? 'zh' : 'en')}
-            className="w-full text-left px-4 py-2 text-emerald-400"
+            onClick={() => setLangMenuOpen(!langMenuOpen)}
+            className="w-full text-left px-4 py-2 text-emerald-400 flex items-center justify-between"
           >
-            {lang === 'en' ? 'Switch to Traditional Chinese' : '切換至英文'}
+            <span>{t.langSwitcher || 'Language'}</span>
+            <span className="text-xs bg-emerald-900/30 px-2 py-1 rounded">{langNames[lang]}</span>
           </button>
+          {langMenuOpen && (
+            <div className="px-4 pb-2 space-y-1">
+              {(Object.keys(langNames) as Lang[]).map((locale) => (
+                <button
+                  key={locale}
+                  onClick={() => {
+                    setLang(locale);
+                    setLangMenuOpen(false);
+                    setIsOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded text-sm ${
+                    lang === locale
+                      ? 'bg-emerald-900/30 text-emerald-400'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  {langNames[locale]}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </nav>
