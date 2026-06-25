@@ -9,10 +9,10 @@ export const metadata: Metadata = {
     description: "The ultimate hub for high-net-worth business leaders",
     images: [
       {
-        url: "/logo.jpg",
-        width: 400,
-        height: 400,
-        alt: "科富商會 Logo"
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "科富商會 TechWealth"
       }
     ],
     type: "website",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "科富商會 | TechWealth Elite",
     description: "The ultimate hub for high-net-worth business leaders",
-    images: ["/logo.jpg"]
+    images: ["/og-image.jpg"]
   }
 };
 
