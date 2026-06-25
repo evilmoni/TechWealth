@@ -113,3 +113,15 @@ export const translations = {
 
 export type Lang = 'en' | 'zh';
 export type TranslationKey = keyof typeof translations.en;
+
+// Helper to get initial language from localStorage (client-side only)
+export const getInitialLang = (): Lang => {
+  if (typeof window === 'undefined') return 'en';
+  try {
+    const saved = localStorage.getItem('techwealth_lang');
+    if (saved === 'en' || saved === 'zh') return saved;
+  } catch (e) {
+    // localStorage not available
+  }
+  return 'en';
+};

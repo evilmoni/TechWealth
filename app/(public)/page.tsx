@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Counter from '../components/Counter';
 import { ShieldCheck, Calendar, ChevronRight } from 'lucide-react';
-import { Lang, translations } from '../../lib/translations';
+import { Lang, translations, getInitialLang } from '../../lib/translations';
 import Link from 'next/link';
 
 export default function HomePage() {
-  const [lang, setLang] = useState<Lang>('en');
+  const [lang, setLang] = useState<Lang>(getInitialLang);
   const t = translations[lang];
 
   return (

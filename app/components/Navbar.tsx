@@ -17,6 +17,13 @@ export default function Navbar({ lang, setLang, isMember }: NavbarProps) {
   const t = translations[lang];
   const pathname = usePathname();
 
+  // Persist language preference to localStorage
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('techwealth_lang', lang);
+    }
+  }, [lang]);
+
   const navItems = [
     { href: '/', label: t.navHome },
     { href: '/events', label: t.navEvents },

@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import Navbar from '../../components/Navbar';
 import { Target, CreditCard, Users } from 'lucide-react';
-import { Lang, translations } from '../../../lib/translations';
+import { Lang, translations, getInitialLang } from '../../../lib/translations';
 
 export default function VisionPage() {
-  const [lang, setLang] = useState<Lang>('en');
+  const [lang, setLang] = useState<Lang>(getInitialLang);
   const t = translations[lang];
 
   const roadmapSteps = lang === 'en' 

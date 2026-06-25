@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import EventCard from '../../components/EventCard';
 import { Calendar, ShieldCheck } from 'lucide-react';
-import { Lang, translations } from '../../../lib/translations';
+import { Lang, translations, getInitialLang } from '../../../lib/translations';
 
 interface Event {
   _id: string;
@@ -26,7 +26,7 @@ const formatEventDate = (value: string) => {
 };
 
 export default function EventsPage() {
-  const [lang, setLang] = useState<Lang>('en');
+  const [lang, setLang] = useState<Lang>(getInitialLang);
   const [eventsData, setEventsData] = useState<Event[]>([]);
   const [eventsError, setEventsError] = useState<string | null>(null);
   const t = translations[lang];

@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import { Lock, ShieldCheck, ExternalLink } from 'lucide-react';
-import { Lang, translations } from '../../../lib/translations';
+import { Lang, translations, getInitialLang } from '../../../lib/translations';
 import { auth, db } from '../../../lib/firebase';
 import { signInAnonymously, onAuthStateChanged, User } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
-  const [lang, setLang] = useState<Lang>('en');
+  const [lang, setLang] = useState<Lang>(getInitialLang);
   const [user, setUser] = useState<User | null>(null);
   const [membershipId, setMembershipId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);

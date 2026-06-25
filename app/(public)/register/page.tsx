@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Navbar from '../../components/Navbar';
 import SignUpForm from '../../components/SignUpForm';
 import { Clock } from 'lucide-react';
-import { Lang, translations } from '../../../lib/translations';
+import { Lang, translations, getInitialLang } from '../../../lib/translations';
 
 interface FormData {
   name: string;
@@ -20,7 +20,7 @@ interface FormData {
 }
 
 export default function RegisterPage() {
-  const [lang, setLang] = useState<Lang>('en');
+  const [lang, setLang] = useState<Lang>(getInitialLang);
   const [applicationStatus, setApplicationStatus] = useState<'pending' | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const t = translations[lang];
