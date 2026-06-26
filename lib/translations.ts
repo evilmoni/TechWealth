@@ -268,7 +268,7 @@ export const translations = {
     mission3Desc: "Optimierung des Humankapitals für maximale Effizienz.",
     assetValue: "Vermögenswert",
     globalChapters: "Globale Kapitel",
-    footerCopyright: "© 2024 TechWealth Collective. Vertraulich & Exklusiv.",
+    footerCopyright: "© 2024 TechWealth Collective. Alle Rechte vorbehalten.",
     langSwitcher: "Sprache",
     chooseTier: "Wählen Sie Ihre Stufe",
     tierPaysForItself: "Ihre Mitgliedschaft finanziert sich selbst.",
