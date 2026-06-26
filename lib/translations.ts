@@ -325,9 +325,17 @@ export const getInitialLang = (): Lang => {
   if (typeof window === 'undefined') return 'en';
   try {
     const saved = localStorage.getItem('techwealth_lang');
-    if (saved === 'en' || saved === 'zh' || saved === 'zh-cn') return saved;
+    if (saved === 'en' || saved === 'zh' || saved === 'zh-cn' || saved === 'de') return saved;
   } catch (e) {
     // localStorage not available
   }
   return 'en';
+};
+
+/**
+ * Translation length checker - use when adding new languages
+ * Returns true if the translation is within safe limits for mobile UI
+ */
+export const isTranslationSafe = (lang: Lang, key: keyof typeof translations.en, maxLength: number = 50): boolean => {
+  return translations[lang][key].length <= maxLength;
 };

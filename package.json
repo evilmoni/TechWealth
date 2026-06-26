@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "validate:i18n": "ts-node --compilerOptions '{\"module\":\"commonjs\"}' lib/validate-translations.ts"
   },
   "dependencies": {
     "firebase": "^10.14.1",

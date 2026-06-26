@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
+import Footer from '../../components/Footer';
 import Counter from '../components/Counter';
 import { ShieldCheck, Calendar, ChevronRight } from 'lucide-react';
 import { Lang, translations, getInitialLang } from '../../lib/translations';
@@ -25,7 +26,6 @@ export default function HomePage() {
           </h1>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             {t.heroSub}
-          </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
             <Link 
@@ -65,11 +65,7 @@ export default function HomePage() {
         </div>
       </main>
 
-      <footer className="border-t border-zinc-900 py-10 text-center">
-        <p className="text-zinc-600 text-xs tracking-widest uppercase">
-          {t.footerCopyright}
-        </p>
-      </footer>
+      <Footer lang={lang} />
     </div>
   );
 }

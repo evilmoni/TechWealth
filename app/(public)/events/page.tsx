@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import EventCard from '../../components/EventCard';
 import { Calendar, ShieldCheck } from 'lucide-react';
 import { Lang, translations, getInitialLang } from '../../../lib/translations';
@@ -99,11 +100,7 @@ export default function EventsPage() {
         </div>
       </main>
 
-      <footer className="border-t border-zinc-900 py-10 text-center">
-        <p className="text-zinc-600 text-xs tracking-widest uppercase">
-          {t.footerCopyright}
-        </p>
-      </footer>
+      <Footer lang={lang} />
     </div>
   );
 }

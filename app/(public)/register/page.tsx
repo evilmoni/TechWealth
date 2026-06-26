@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import SignUpForm from '../../components/SignUpForm';
 import { Clock } from 'lucide-react';
 import { Lang, translations, getInitialLang } from '../../../lib/translations';

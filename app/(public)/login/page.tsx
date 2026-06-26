@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import { Lock, ShieldCheck, ExternalLink } from 'lucide-react';
 import { Lang, translations, getInitialLang } from '../../../lib/translations';
 import { auth, db } from '../../../lib/firebase';
