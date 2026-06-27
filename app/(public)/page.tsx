@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import Footer from '../../components/Footer';
+import Footer from '../components/Footer';
 import Counter from '../components/Counter';
 import { ShieldCheck, Calendar, ChevronRight } from 'lucide-react';
 import { Lang, translations, getInitialLang } from '../../lib/translations';
