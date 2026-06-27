@@ -26,6 +26,7 @@ export default function HomePage() {
           </h1>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             {t.heroSub}
+          </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
             <Link 
@@ -45,19 +46,19 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-20">
             <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800/50">
               <div className="text-4xl font-bold text-emerald-400 mb-2">
-                <Counter target={1250} />+
+                <Counter target={1} />+
               </div>
               <div className="text-zinc-500 font-medium">{t.memberCount}</div>
             </div>
             <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800/50">
               <div className="text-4xl font-bold text-emerald-400 mb-2">
-                $<Counter target={450} />M+
+                $<Counter target={0} />M+
               </div>
               <div className="text-zinc-500 font-medium">{t.assetValue}</div>
             </div>
             <div className="p-8 rounded-3xl bg-zinc-900/50 border border-zinc-800/50">
               <div className="text-4xl font-bold text-emerald-400 mb-2">
-                <Counter target={12} />
+                <Counter target={1} />
               </div>
               <div className="text-zinc-500 font-medium">{t.globalChapters}</div>
             </div>
