@@ -293,27 +293,71 @@ export default function SignUpForm({ lang, onSubmit, isSubmitting }: SignUpFormP
       {/* Payment Method */}
       <div>
         <label className="block text-xs text-zinc-500 mb-3">{labels.paymentMethod}</label>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-          {[
-            { value: 'bank_transfer', label: labels.bankTransfer },
-            { value: 'stripe', label: labels.stripe },
-            { value: 'paypal', label: labels.paypal },
-            { value: 'crypto', label: labels.crypto },
-            { value: 'manual', label: labels.manual }
-          ].map((method) => (
-            <button
-              key={method.value}
-              type="button"
-              onClick={() => setFormData(prev => ({ ...prev, paymentMethod: method.value }))}
-              className={`p-3 rounded-xl border text-xs font-medium transition-all ${
-                formData.paymentMethod === method.value
-                  ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400'
-                  : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
-              }`}
-            >
-              {method.label}
-            </button>
-          ))}
+        
+        {/* Group 1: Manual + Bank Transfer (3-5 working days) */}
+        <div className="mb-4">
+          <div className="grid grid-cols-2 gap-3 mb-2">
+            {[
+              { value: 'bank_transfer', label: labels.bankTransfer },
+              { value: 'manual', label: labels.manual }
+            ].map((method) => (
+              <button
+                key={method.value}
+                type="button"
+                onClick={() => setFormData(prev => ({ ...prev, paymentMethod: method.value }))}
+                className={`p-3 rounded-xl border text-xs font-medium transition-all ${
+                  formData.paymentMethod === method.value
+                    ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400'
+                    : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
+                }`}
+              >
+                {method.label}
+              </button>
+            ))}
+          </div>
+          <p className="text-[10px] text-zinc-500 text-center">⏱️ 3-5 working days for processing</p>
+        </div>
+
+        {/* Group 2: Stripe + PayPal (Instant) */}
+        <div className="mb-4">
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { value: 'stripe', label: labels.stripe },
+              { value: 'paypal', label: labels.paypal }
+            ].map((method) => (
+              <button
+                key={method.value}
+                type="button"
+                onClick={() => setFormData(prev => ({ ...prev, paymentMethod: method.value }))}
+                className={`p-3 rounded-xl border text-xs font-medium transition-all ${
+                  formData.paymentMethod === method.value
+                    ? 'bg-amber-500/20 border-amber-500 text-amber-400'
+                    : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
+                }`}
+              >
+                {method.label}
+              </button>
+            ))}
+          </div>
+          <p className="text-[10px] text-zinc-500 text-center mt-2">⚡ Instant payment confirmation</p>
+        </div>
+
+        {/* Group 3: Crypto (Isolated) */}
+        <div className="pt-4 border-t border-zinc-800">
+          <button
+            type="button"
+            onClick={() => setFormData(prev => ({ ...prev, paymentMethod: 'crypto' }))}
+            className={`w-full p-4 rounded-xl border text-sm font-medium transition-all ${
+              formData.paymentMethod === 'crypto'
+                ? 'bg-purple-500/20 border-purple-500 text-purple-400'
+                : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
+            }`}
+          >
+            <div className="flex items-center justify-center gap-2">
+              💰 {labels.crypto}
+            </div>
+            <p className="text-[10px] text-zinc-500 mt-1">🔗 Connect MetaMask or Phantom wallet</p>
+          </button>
         </div>
       </div>
 
