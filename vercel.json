@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/techwealth_trackerpro/:path*",
+      "destination": "https://tw-crm-clean.vercel.app/:path*"
+    }
+  ]
+}
