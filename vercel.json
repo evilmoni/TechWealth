@@ -1,8 +1,14 @@
 {
-  "rewrites": [
+  "redirects": [
+    {
+      "source": "/techwealth_trackerpro",
+      "destination": "https://tw-crm-clean.vercel.app",
+      "permanent": false
+    },
     {
       "source": "/techwealth_trackerpro/:path*",
-      "destination": "https://tw-crm-clean.vercel.app/:path*"
+      "destination": "https://tw-crm-clean.vercel.app/:path*",
+      "permanent": false
     }
   ]
 }
